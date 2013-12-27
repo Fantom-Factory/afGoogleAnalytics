@@ -5,7 +5,7 @@ class Build : BuildPod {
 	new make() {
 		podName = "afGoogleAnalytics"
 		summary = "(Internal) A simple efan component for rendering Google's Universal Analytics script"
-		version = Version("0.0.1")
+		version = Version("0.0.3")
 
 		meta	= [	"org.name"		: "Alien-Factory",
 					"org.uri"		: "http://www.alienfactory.co.uk/",
