@@ -9,7 +9,7 @@ class Build : BuildPod {
 
 		meta	= [	"org.name"		: "Alien-Factory",
 					"org.uri"		: "http://www.alienfactory.co.uk/",
-					"vcs.uri"		: "https://bitbucket.org/Alien-Factory/afgoogleanalytics",
+					"vcs.uri"		: "https://bitbucket.org/AlienFactory/afgoogleanalytics",
 					"proj.name"		: "Google Analytics",
 					"license.name"	: "BSD 2-Clause License",	
 					"repo.private"	: "true"
@@ -22,7 +22,7 @@ class Build : BuildPod {
 				]
 
 
-		depends = ["sys 1.0", "afIoc 1.4+", "afEfanXtra 1+", "afIocConfig 0+"]
+		depends = ["sys 1.0", "afIoc 1.5+", "afEfanXtra 1+", "afIocConfig 1.0+"]
 		srcDirs = [`fan/`]
 		resDirs = [`doc/`, `res/`]
 
