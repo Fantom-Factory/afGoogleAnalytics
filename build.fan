@@ -1,11 +1,11 @@
-using build::BuildPod
+using build
 
 class Build : BuildPod {
 
 	new make() {
 		podName = "afGoogleAnalytics"
 		summary = "(Internal) A simple efan component for rendering Google's Universal Analytics script"
-		version = Version("0.0.4")
+		version = Version("0.0.5")
 
 		meta	= [	
 			"org.name"		: "Alien-Factory",
@@ -14,7 +14,7 @@ class Build : BuildPod {
 			"proj.uri"		: "http://repo.status302.com/doc/afGoogleAnalytics/",
 			"vcs.uri"		: "https://bitbucket.org/AlienFactory/afgoogleanalytics",
 			"license.name"	: "BSD 2-Clause License",	
-			"repo.private"	: "false",
+			"repo.private"	: "true",
 
 			"afIoc.module"	: "afGoogleAnalytics::GoogleAnalyticsModule"
 		]
