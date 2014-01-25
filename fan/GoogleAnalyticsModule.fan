@@ -13,6 +13,6 @@ const class GoogleAnalyticsModule {
 	@Contribute { serviceType=FactoryDefaults# }
 	internal static Void contributeFactoryDefaults(MappedConfig config) {
 		config[GoogleAnalyticsConfigIds.accountNumber]	= ""
-		config[GoogleAnalyticsConfigIds.accountDomain]	= ""
+		config[GoogleAnalyticsConfigIds.accountDomain]	= ``
 	}
 }

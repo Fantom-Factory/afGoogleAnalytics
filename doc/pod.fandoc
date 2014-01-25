@@ -33,7 +33,7 @@ class AppModule {
   static Void contributeApplicationDefaults(MappedConfig config) {
 
     config[GoogleAnalyticsConfigIds.accountNumber]    = "XX-99999999-9"
-    config[GoogleAnalyticsConfigIds.accountDomain]    = "wotever.com"
+    config[GoogleAnalyticsConfigIds.accountDomain]    = `wotever.com`
   }
 }
 <pre
