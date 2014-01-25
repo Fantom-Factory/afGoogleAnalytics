@@ -2,33 +2,35 @@ using afIoc
 using afIocConfig
 using afEfanXtra
 
+** (efan component) Renders the Google Universal Analytics script.
 const mixin GoogleAnalytics : EfanComponent {
-	// TODO: afIoc-1.5 - Inject
-	private static const Log log	:= GoogleAnalytics#.pod.log
+	@Inject	abstract internal Log log
 	
 	@Config { id="afGoogleAnalytics.accountNumber" }
-	@Inject	abstract Str accountNumber
+	@Inject	abstract internal Str accountNumber
 
 	@Config { id="afGoogleAnalytics.accountDomain" }
-	@Inject	abstract Str accountDomain
+	@Inject	abstract internal Str googleDomain
+
+	@Config { id="afBedSheet.host" }
+	@Inject	abstract internal Uri bedSheetHost
 
 	@Config { id="afIocEnv.isProd" }
-	@Inject	abstract Bool? isProd
+	@Inject	abstract internal Bool? isProd
 
-	Bool initRender() {
+	@InitRender
+	internal Bool initRender() {
 		borked := false
 	
 		if (accountNumber.isEmpty) {
 			log.warn("Google Analytics Account Number has not been set.\n Please add the following to your AppModule's contributeApplicationDefaults() method:\n   config[${GoogleAnalyticsConfigIds#.name}.${GoogleAnalyticsConfigIds#accountNumber.name}] = \"GA-ACC-NO\");")
 			borked = true
 		}
-
-		if (accountDomain.isEmpty) {
-			log.warn("Google Analytics Account Domain has not been set.\n Please add the following to your AppModule's contributeApplicationDefaults() method:\n   config[${GoogleAnalyticsConfigIds#.name}.${GoogleAnalyticsConfigIds#accountDomain.name}] = \"wotever.com\");")
-			borked = true
-		}
 		
 		return isProd && !borked
 	}
 	
+	internal Str accountDomain() {
+		googleDomain.isEmpty ? bedSheetHost.host : googleDomain
+	}
 }
