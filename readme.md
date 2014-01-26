@@ -1,5 +1,8 @@
 # Google Analytics
 
+*`Google Analytics` is a support library that aids Alien-Factory in the development of libraries, frameworks and applications.
+Though you are welcome to use it, you may find features are missing and the documentation incomplete.*
+
 A simple [efan component](http://www.fantomfactory.org/pods/afEfanXtra) for rendering Google's Universal Analytics script.
 
 
