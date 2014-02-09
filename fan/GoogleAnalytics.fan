@@ -21,7 +21,7 @@ const mixin GoogleAnalytics : EfanComponent {
 	@InitRender
 	Bool initRender() {
 		borked := false
-	
+		
 		if (accountNumber.isEmpty) {
 			log.warn("Google Analytics Account Number has not been set.\n Add the following to your AppModule's contributeApplicationDefaults() method:\n   config[${GoogleAnalyticsConfigIds#.name}.${GoogleAnalyticsConfigIds#accountNumber.name}] = \"GA-ACC-NO\");")
 			borked = true
