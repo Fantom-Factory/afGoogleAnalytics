@@ -13,7 +13,7 @@ class Build : BuildPod {
 			"proj.name"		: "Google Analytics",
 			"proj.uri"		: "http://repo.status302.com/doc/afGoogleAnalytics/",
 			"vcs.uri"		: "https://bitbucket.org/AlienFactory/afgoogleanalytics",
-			"license.name"	: "BSD 2-Clause License",	
+			"license.name"	: "The MIT Licence",	
 			"repo.private"	: "true",
 
 			"afIoc.module"	: "afGoogleAnalytics::GoogleAnalyticsModule"
@@ -27,9 +27,9 @@ class Build : BuildPod {
 
 		depends = [
 			"sys 1.0", 
-			"afIoc 1.5.2+", 
+			"afIoc 1.5.4+", 
 			"afIocConfig 1.0.2+",
-			"afEfanXtra 1.0.6+"
+			"afEfanXtra 1.0.12+"
 		]
 		
 		srcDirs = [`fan/`]

@@ -8,6 +8,8 @@ const mixin GoogleAnalyticsConfigIds {
 
 	 ** Your Google account domain (uri), in the format 'http://wotever.com'. 
 	 ** If not supplied, it is taken from the BedSheet 'host' config value.
+	 ** 
+	 ** Example: `//example.org/` or `http://example.org/`
 	static const Str accountDomain 	:= "afGoogleAnalytics.accountDomain";
 
 }
