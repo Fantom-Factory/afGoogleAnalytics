@@ -16,6 +16,7 @@ class Build : BuildPod {
 			"license.name"	: "The MIT Licence",	
 			"repo.private"	: "true",
 
+			"tags"			: "web",
 			"afIoc.module"	: "afGoogleAnalytics::GoogleAnalyticsModule"
 		]
 
@@ -27,13 +28,13 @@ class Build : BuildPod {
 
 		depends = [
 			"sys 1.0", 
-			"afIoc 1.5.4+", 
-			"afIocConfig 1.0.2+",
-			"afEfanXtra 1.0.12+"
+			"afIoc 1.6.0+", 
+			"afIocConfig 1.0.4+",
+			"afEfanXtra 1.0.14+"
 		]
 		
 		srcDirs = [`fan/`]
-		resDirs = [`doc/`, `res/`]
+		resDirs = [`licence.txt`, `doc/`, `res/`]
 
 		docApi = true
 		docSrc = true
@@ -41,12 +42,9 @@ class Build : BuildPod {
 	
 	@Target { help = "Compile to pod file and associated natives" }
 	override Void compile() {
-		// exclude test code when building the pod
-		srcDirs = srcDirs.exclude { it.toStr.startsWith("test/") }
-		resDirs = resDirs.exclude { it.toStr.startsWith("res/test/") }
-		
+		// see "stripTest" in `/etc/build/config.props` to exclude test src & res dirs
 		super.compile
-		
+
 		// copy src to %FAN_HOME% for F4 debugging
 		log.indent
 		destDir := Env.cur.homeDir.plus(`src/${podName}/`)
