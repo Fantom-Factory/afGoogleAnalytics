@@ -33,7 +33,7 @@ using afGoogleAnalytics
 
 class AppModule {
   @Contribute { serviceType=ApplicationDefaults# }
-  static Void contributeApplicationDefaults(MappedConfig config) {
+  static Void contributeApplicationDefaults(Configuration config) {
 
     config[GoogleAnalyticsConfigIds.accountNumber]    = "XX-99999999-9"
     config[GoogleAnalyticsConfigIds.accountDomain]    = `wotever.com`
@@ -65,6 +65,9 @@ html
 
 Release Notes [#releaseNotes]
 *****************************
+v0.0.6 [#v0.0.6]
+----------------
+ - Chg: Updated to [IoC 1.7.2]`pod:afIoc`.
 
 v0.0.4 [#v0.0.4]
 ----------------

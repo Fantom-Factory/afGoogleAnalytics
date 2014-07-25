@@ -6,12 +6,12 @@ using afEfanXtra
 const class GoogleAnalyticsModule {
 
 	@Contribute { serviceType=EfanLibraries# }
-	internal static Void contributeEfanLibraries(MappedConfig config) {
+	internal static Void contributeEfanLibraries(Configuration config) {
 		config["afGa"] = GoogleAnalyticsModule#.pod
 	}
 
 	@Contribute { serviceType=FactoryDefaults# }
-	internal static Void contributeFactoryDefaults(MappedConfig config) {
+	internal static Void contributeFactoryDefaults(Configuration config) {
 		config[GoogleAnalyticsConfigIds.accountNumber]	= ""
 		config[GoogleAnalyticsConfigIds.accountDomain]	= ``
 	}

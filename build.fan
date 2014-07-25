@@ -5,7 +5,7 @@ class Build : BuildPod {
 	new make() {
 		podName = "afGoogleAnalytics"
 		summary = "A simple efan component for rendering Google's Universal Analytics script"
-		version = Version("0.0.5")
+		version = Version("0.0.7")
 
 		meta	= [	
 			"proj.name"		: "Google Analytics",
@@ -22,9 +22,9 @@ class Build : BuildPod {
 
 		depends = [
 			"sys 1.0", 
-			"afIoc 1.6.2+", 
-			"afIocConfig 1.0.6+",
-			"afEfanXtra 1.1.4+"
+			"afIoc 1.7.2+", 
+			"afIocConfig 1.0.10+",
+			"afEfanXtra 1.1.8+"
 		]
 		
 		srcDirs = [`fan/`]
