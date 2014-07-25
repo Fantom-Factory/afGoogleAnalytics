@@ -1,10 +1,10 @@
-## Overview
+## Overview 
 
 *Google Analytics is a support library that aids Alien-Factory in the development of other libraries, frameworks and applications. Though you are welcome to use it, you may find features are missing and the documentation incomplete.*
 
 `Google Analytics` is a simple [efan component](http://www.fantomfactory.org/pods/afEfanXtra) for rendering Google's [Universal Analytics](https://support.google.com/analytics/answer/2790010) script.
 
-## Install
+## Install 
 
 Install `Google Analytics` with the Fantom Repository Manager ( [fanr](http://fantom.org/doc/docFanr/Tool.html#install) ):
 
@@ -14,11 +14,11 @@ To use in a [Fantom](http://fantom.org/) project, add a dependency to `build.fan
 
     depends = ["sys 1.0", ..., "afGoogleAnalytics 0.0+"]
 
-## Documentation
+## Documentation 
 
 Full API & fandocs are available on the [Status302 repository](http://repo.status302.com/doc/afGoogleAnalytics/).
 
-## Quick Start
+## Quick Start 
 
 Set the Google Analytic account in your `AppModule`:
 
@@ -29,7 +29,7 @@ using afGoogleAnalytics
 
 class AppModule {
   @Contribute { serviceType=ApplicationDefaults# }
-  static Void contributeApplicationDefaults(MappedConfig config) {
+  static Void contributeApplicationDefaults(Configuration config) {
 
     config[GoogleAnalyticsConfigIds.accountNumber]    = "XX-99999999-9"
     config[GoogleAnalyticsConfigIds.accountDomain]    = `wotever.com`
