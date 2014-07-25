@@ -3,6 +3,7 @@ using afIocConfig::FactoryDefaults
 using afEfanXtra
 
 ** The [Ioc]`http://www.fantomfactory.org/pods/afIoc` module class.
+@NoDoc
 const class GoogleAnalyticsModule {
 
 	@Contribute { serviceType=EfanLibraries# }
