@@ -2,7 +2,7 @@ using afIoc
 using afIocConfig::FactoryDefaults
 using afEfanXtra
 
-** The [Ioc]`http://www.fantomfactory.org/pods/afIoc` module class.
+** The [Ioc]`pod:afIoc` module class.
 @NoDoc
 const class GoogleAnalyticsModule {
 

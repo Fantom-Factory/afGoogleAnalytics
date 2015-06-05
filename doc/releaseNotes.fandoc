@@ -1,0 +1,15 @@
+Versions
+********
+
+v0.0.6
+------
+ - Chg: Updated to [IoC 1.7.2]`pod:afIoc`.
+
+v0.0.4
+------
+ - Chg: 'accountDomain' defaults to BedSheet's 'host' config value
+
+v0.0.2
+------
+ - New: Preview Release
+
