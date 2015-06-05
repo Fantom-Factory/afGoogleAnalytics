@@ -1,10 +1,14 @@
-## Overview 
+#Google Analytics v0.0.6
+---
+[![Written in: Fantom](http://img.shields.io/badge/written%20in-Fantom-lightgray.svg)](http://fantom.org/)
+[![pod: v0.0.6](http://img.shields.io/badge/pod-v0.0.6-yellow.svg)](http://www.fantomfactory.org/pods/afGoogleAnalytics)
+![Licence: MIT](http://img.shields.io/badge/licence-MIT-blue.svg)
 
-*Google Analytics is a support library that aids Alien-Factory in the development of other libraries, frameworks and applications. Though you are welcome to use it, you may find features are missing and the documentation incomplete.*
+## Overview
 
-`Google Analytics` is a simple [efan component](http://www.fantomfactory.org/pods/afEfanXtra) for rendering Google's [Universal Analytics](https://support.google.com/analytics/answer/2790010) script.
+Google Analytics is a simple [efan component](http://pods.fantomfactory.org/pods/afEfanXtra) for rendering Google's [Universal Analytics](https://support.google.com/analytics/answer/2790010) script.
 
-## Install 
+## Install
 
 Install `Google Analytics` with the Fantom Repository Manager ( [fanr](http://fantom.org/doc/docFanr/Tool.html#install) ):
 
@@ -12,13 +16,13 @@ Install `Google Analytics` with the Fantom Repository Manager ( [fanr](http://fa
 
 To use in a [Fantom](http://fantom.org/) project, add a dependency to `build.fan`:
 
-    depends = ["sys 1.0", ..., "afGoogleAnalytics 0.0+"]
+    depends = ["sys 1.0", ..., "afGoogleAnalytics 0.0"]
 
-## Documentation 
+## Documentation
 
-Full API & fandocs are available on the [Status302 repository](http://repo.status302.com/doc/afGoogleAnalytics/).
+Full API & fandocs are available on the [Fantom Pod Repository](http://pods.fantomfactory.org/pods/afGoogleAnalytics/).
 
-## Quick Start 
+## Quick Start
 
 Set the Google Analytic account in your `AppModule`:
 
@@ -37,7 +41,7 @@ class AppModule {
 }
 ```
 
-Then render it in your [efan component](http://www.fantomfactory.org/pods/afEfanXtra), you should place it just before the closing `<body>` tag:
+Then render it in your [efan component](http://pods.fantomfactory.org/pods/afEfanXtra), you should place it just before the closing `<body>` tag:
 
 ```
 <html>
@@ -49,7 +53,7 @@ Then render it in your [efan component](http://www.fantomfactory.org/pods/afEfan
 </html>
 ```
 
-Or if using [Slim](http://www.fantomfactory.org/pods/afSlim):
+Or if using [Slim](http://pods.fantomfactory.org/pods/afSlim):
 
 ```
 html
