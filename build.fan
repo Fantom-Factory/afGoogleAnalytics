@@ -5,14 +5,14 @@ class Build : BuildPod {
 	new make() {
 		podName = "afGoogleAnalytics"
 		summary = "A simple efan component for rendering Google's Universal Analytics script"
-		version = Version("0.0.6")
+		version = Version("0.0.7")
 
 		meta	= [	
 			"proj.name"		: "Google Analytics",
 			"afIoc.module"	: "afGoogleAnalytics::GoogleAnalyticsModule",
 			"internal"		: "true",			
 			"repo.tags"		: "web",
-			"repo.public"	: "true",
+			"repo.public"	: "false",
 		]
 
 		index	= [	
