@@ -10,7 +10,7 @@ class Build : BuildPod {
 		meta	= [	
 			"proj.name"		: "Google Analytics",
 			"afIoc.module"	: "afGoogleAnalytics::GoogleAnalyticsModule",
-			"internal"		: "true",			
+			"repo.internal"	: "true",			
 			"repo.tags"		: "web",
 			"repo.public"	: "false",
 		]
