@@ -1,18 +1,16 @@
 using afIoc
 using afIocConfig::FactoryDefaults
-using afEfanXtra
 
 ** The [Ioc]`pod:afIoc` module class.
 @NoDoc
 const class GoogleAnalyticsModule {
 
-	@Contribute { serviceType=EfanLibraries# }
-	internal static Void contributeEfanLibraries(Configuration config) {
-		config["afGa"] = GoogleAnalyticsModule#.pod
+	internal Void defineServices(RegistryBuilder bob) {
+		bob.addService(GoogleAnalytics#)
 	}
 
 	@Contribute { serviceType=FactoryDefaults# }
-	internal static Void contributeFactoryDefaults(Configuration config) {
+	internal Void contributeFactoryDefaults(Configuration config) {
 		config[GoogleAnalyticsConfigIds.accountNumber]	= ""
 		config[GoogleAnalyticsConfigIds.accountDomain]	= ``
 	}
