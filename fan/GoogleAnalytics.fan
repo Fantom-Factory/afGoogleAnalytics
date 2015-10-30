@@ -57,6 +57,8 @@ internal const class GoogleAnalyticsImpl : GoogleAnalytics {
 	
 	override Void sendPageView(Uri? url := null) {
 		renderGuas
+		// maybe allow the page to be set rather than passing in a url
+		// see https://developers.google.com/analytics/devguides/collection/analyticsjs/pages
 		injector.injectScript.withScript(url == null ? "ga('send', 'pageview');" : "ga('send', 'pageview', '${url.encode}');")
 	}
 
@@ -74,6 +76,6 @@ internal const class GoogleAnalyticsImpl : GoogleAnalytics {
 			 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 			 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 			 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-			 ga('create', '<%= accountNumber %>', '<%= accountDomain %>');")
+			 ga('create', '${accountNumber}', '${accountDomain}');")
 	}
 }
