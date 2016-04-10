@@ -5,24 +5,21 @@ class Build : BuildPod {
 	new make() {
 		podName = "afGoogleAnalytics"
 		summary = "An IoC service to render Google's Universal Analytics script"
-		version = Version("1.1.0")
+		version = Version("0.1.0")
 
 		meta	= [	
 			"proj.name"		: "Google Analytics",
 			"afIoc.module"	: "afGoogleAnalytics::GoogleAnalyticsModule",
 			"repo.internal"	: "true",			
 			"repo.tags"		: "web",
-			"repo.public"	: "false",
-		]
-
-		index	= [	
-			"afIoc.module"	: "afGoogleAnalytics::GoogleAnalyticsModule"
+			"repo.public"	: "true",
 		]
 
 		depends = [
-			"sys         1.0.67 - 1.0", 
+			"sys         1.0.68 - 1.0", 
 			"afIoc       3.0.0  - 3.0", 
 			"afIocConfig 1.1.0  - 1.1",
+			"afBedSheet  1.5.0  - 1.5",
 			"afDuvet     1.1.0  - 1.1"
 		]
 		
