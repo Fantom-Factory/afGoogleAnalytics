@@ -5,14 +5,14 @@ class Build : BuildPod {
 	new make() {
 		podName = "afGoogleAnalytics"
 		summary = "An IoC service to render Google's Universal Analytics script"
-		version = Version("0.1.0")
+		version = Version("0.1.1")
 
 		meta	= [	
 			"proj.name"		: "Google Analytics",
 			"afIoc.module"	: "afGoogleAnalytics::GoogleAnalyticsModule",
 			"repo.internal"	: "true",			
 			"repo.tags"		: "web",
-			"repo.public"	: "true",
+			"repo.public"	: "false",
 		]
 
 		depends = [
