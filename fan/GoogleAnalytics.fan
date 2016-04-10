@@ -1,6 +1,7 @@
 using afIoc
 using afIocConfig
 using afDuvet
+using afBedSheet::HttpRequest
 
 ** (Service) - 
 ** Renders the Google Universal Analytics script and sends page views and events.
@@ -12,10 +13,16 @@ const mixin GoogleAnalytics {
 	** Returns the account used to setup the google script. 
 	abstract Str accountNumber()
 
-	** Sends a page view to google analytics. If 'url' is given then it should start with a leading '/', e.g. `/about`
+	** Returns 'true' if the page has already rendered Javascript to send a page view event.
+	** 
+	** This allows individual pages to send page views for canonical URLs and a layout component to 
+	** send general page views if the page hasn't done so. 
+	abstract Bool pageViewRendered()
+
+	** Renders Javascript to send a page view to google analytics. If 'url' is given then it should start with a leading '/', e.g. `/about`
 	abstract Void sendPageView(Uri? url := null)
 
-	** Sends a event to google analytics. 
+	** Renders Javascript to send an event to google analytics. 
 	abstract Void sendEvent(Str category, Str action, Str? label := null)
 }
 
@@ -34,6 +41,7 @@ internal const class GoogleAnalyticsImpl : GoogleAnalytics {
 	@Config { id="afIocEnv.isProd" }
 	@Inject	private const Bool? isProd
 
+	@Inject	private const HttpRequest	httpReq
 	@Inject	private const HtmlInjector	injector
 			private const Bool 			renderScripts
 			override const Str? 		accountDomain
@@ -46,28 +54,38 @@ internal const class GoogleAnalyticsImpl : GoogleAnalytics {
 			log.warn("Google Analytics Account Number has not been set.\n Add the following to your AppModule's contributeApplicationDefaults() method:\n   config[${GoogleAnalyticsConfigIds#.name}.${GoogleAnalyticsConfigIds#accountNumber.name}] = \"GA-ACC-NO\");")
 			borked = true
 		}
+
+		accountDomain = googleDomain.toStr.isEmpty ? bedSheetHost.host : googleDomain.host 
 		if (isProd && (accountDomain == null || accountDomain.lower.contains("localhost"))) {
 			log.warn("Google Analytics Domain `${accountDomain}` is not valid'!\n Add the following to your AppModule's contributeApplicationDefaults() method:\n   config[${GoogleAnalyticsConfigIds#.name}.${GoogleAnalyticsConfigIds#accountDomain.name}] = \"http://www.example.com\");")
 			borked = true
 		}
+
 		renderScripts = isProd && !borked
-		
-		accountDomain = googleDomain.toStr.isEmpty ? bedSheetHost.host : googleDomain.host 
 	}
 	
+	override Bool pageViewRendered() {
+		httpReq.stash["afGoogleAnalytics.pageViewRendered"] == true
+	}
+
 	override Void sendPageView(Uri? url := null) {
-		renderGuas
-		// maybe allow the page to be set rather than passing in a url
-		// see https://developers.google.com/analytics/devguides/collection/analyticsjs/pages
-		injector.injectScript.withScript(url == null ? "ga('send', 'pageview');" : "ga('send', 'pageview', '${url.encode}');")
+		if (renderScripts) {
+			renderGuas
+			// maybe allow the page to be set rather than passing in a url
+			// see https://developers.google.com/analytics/devguides/collection/analyticsjs/pages
+			injector.injectScript.withScript(url == null ? "ga('send', 'pageview');" : "ga('send', 'pageview', '${url.encode}');")
+		}
+		httpReq.stash["afGoogleAnalytics.pageViewRendered"] = true
 	}
 
 	override Void sendEvent(Str category, Str action, Str? label := null) {
-		renderGuas
-		jsCategory	:= category.toCode('\'')
-		jsAction	:= action.toCode('\'')
-		jsLabel		:= label?.toCode('\'')
-		injector.injectScript.withScript(label == null ? "ga('send', 'event', ${jsCategory}, ${jsAction});" : "ga('send', 'event', ${jsCategory}, ${jsAction}, ${jsLabel});")
+		if (renderScripts) {
+			renderGuas
+			jsCategory	:= category.toCode('\'')
+			jsAction	:= action.toCode('\'')
+			jsLabel		:= label?.toCode('\'')
+			injector.injectScript.withScript(label == null ? "ga('send', 'event', ${jsCategory}, ${jsAction});" : "ga('send', 'event', ${jsCategory}, ${jsAction}, ${jsLabel});")
+		}
 	}
 	
 	private Void renderGuas() {

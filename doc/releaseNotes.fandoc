@@ -1,8 +1,9 @@
 Versions
 ********
 
-v1.0.0
+v0.1.0
 ======
+ - Chg: Replaced the efan component with an IoC service that calls on [Duvet]`pod:afDuvet` to inject Javascript
  - Chg: Recompiled to work with [IoC v3]`pod:afIoc` and  [BedSheet 1.5]`pod:afBedSheet`. (Breaking change.)
 
 v0.0.6
