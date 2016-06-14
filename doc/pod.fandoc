@@ -2,7 +2,7 @@ Overview
 ********
 Google Analytics is a simple service that sends page views and events to Google's [Universal Analytics]`https://support.google.com/analytics/answer/2790010` script.
 
-It uses [Duvet]`pod:afDuvet` to render Javascript in the returned HTML page.
+It uses [Duvet]`pod:afDuvet` to render Javascript in HTML pages.
 
 
 
@@ -31,7 +31,7 @@ Or set the properies in 'config.props' (See [IoC Config]`pod:afIocConfig`)
 
 pre>
 afGoogleAnalytics.accountNumber = XX-99999999-9
-afGoogleAnalytics.accountDomain = `http://example.org/`
+afGoogleAnalytics.accountDomain = http://example.org/
 <pre
 
 Then render the required Javascript via the 'GoogleAnalytics' service:

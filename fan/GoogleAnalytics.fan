@@ -19,7 +19,7 @@ const mixin GoogleAnalytics {
 	** send general page views if the page hasn't done so. 
 	abstract Bool pageViewRendered()
 
-	** Renders Javascript to send a page view to google analytics. If 'url' is given then it should start with a leading '/', e.g. `/about`
+	** Renders Javascript to send a page view to google analytics. If 'url' is given then it should start with a leading '/', e.g. '/about'
 	abstract Void sendPageView(Uri? url := null)
 
 	** Renders Javascript to send an event to google analytics. 
