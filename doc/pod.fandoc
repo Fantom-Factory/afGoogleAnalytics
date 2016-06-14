@@ -31,8 +31,10 @@ Or set the properies in 'config.props' (See [IoC Config]`pod:afIocConfig`)
 
 pre>
 afGoogleAnalytics.accountNumber = XX-99999999-9
-afGoogleAnalytics.accountDomain = http://example.org/
+afGoogleAnalytics.accountDomain = http://example.org/	// optional
 <pre
+
+The domain is optional and will be taken from the Bedsheet host / request host parameter if not supplied.
 
 Then render the required Javascript via the 'GoogleAnalytics' service:
 
@@ -44,4 +46,6 @@ syntax: fantom
 
 googleAnalytics.sendPageView()
 <pre
+
+Note that Javascript is only rendered in 'prod' mode. See [IoC Env]`pod:afIocEnv` for details.
 
