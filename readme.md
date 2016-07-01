@@ -1,7 +1,7 @@
-#Google Analytics v0.1.0
+#Google Analytics v0.1.2
 ---
 [![Written in: Fantom](http://img.shields.io/badge/written%20in-Fantom-lightgray.svg)](http://fantom.org/)
-[![pod: v0.1.0](http://img.shields.io/badge/pod-v0.1.0-yellow.svg)](http://www.fantomfactory.org/pods/afGoogleAnalytics)
+[![pod: v0.1.2](http://img.shields.io/badge/pod-v0.1.2-yellow.svg)](http://www.fantomfactory.org/pods/afGoogleAnalytics)
 ![Licence: MIT](http://img.shields.io/badge/licence-MIT-blue.svg)
 
 ## Overview
@@ -10,7 +10,7 @@
 
 Google Analytics is a simple service that sends page views and events to Google's [Universal Analytics](https://support.google.com/analytics/answer/2790010) script.
 
-It uses [Duvet](http://pods.fantomfactory.org/pods/afDuvet) to render Javascript in the returned HTML page.
+It uses [Duvet](http://pods.fantomfactory.org/pods/afDuvet) to render Javascript in HTML pages.
 
 ## Install
 
@@ -49,8 +49,10 @@ Or set the properies in `config.props` (See [IoC Config](http://pods.fantomfacto
 
 ```
 afGoogleAnalytics.accountNumber = XX-99999999-9
-afGoogleAnalytics.accountDomain = `http://example.org/`
+afGoogleAnalytics.accountDomain = http://example.org/	// optional
 ```
+
+The domain is optional and will be taken from the Bedsheet host / request host parameter if not supplied.
 
 Then render the required Javascript via the `GoogleAnalytics` service:
 
@@ -61,4 +63,6 @@ Then render the required Javascript via the `GoogleAnalytics` service:
 
 googleAnalytics.sendPageView()
 ```
+
+Note that Javascript is only rendered in `prod` mode. See [IoC Env](http://pods.fantomfactory.org/pods/afIocEnv) for details.
 
