@@ -2,6 +2,7 @@ using afIoc
 using afIocConfig
 using afDuvet
 using afBedSheet::HttpRequest
+using afBedSheet::BedSheetServer
 
 ** (Service) - 
 ** Renders the Google Universal Analytics script and sends page views and events.
@@ -35,16 +36,14 @@ internal const class GoogleAnalyticsImpl : GoogleAnalytics {
 	@Config { id="afGoogleAnalytics.accountDomain" }
 	@Inject	private const Uri googleDomain
 
-	@Config { id="afBedSheet.host" }
-	@Inject	private const Uri bedSheetHost
-
 	@Config { id="afIocEnv.isProd" }
 	@Inject	private const Bool? isProd
 
-	@Inject	private const HttpRequest	httpReq
-	@Inject	private const HtmlInjector	injector
-			private const Bool 			renderScripts
-			override const Str? 		accountDomain
+	@Inject	private const BedSheetServer	bedServer
+	@Inject	private const HttpRequest		httpReq
+	@Inject	private const HtmlInjector		injector
+			private const Bool 				renderScripts
+			override const Str? 			accountDomain
 
 	new make(|This|in) {
 		in(this)
@@ -55,7 +54,7 @@ internal const class GoogleAnalyticsImpl : GoogleAnalytics {
 			borked = true
 		}
 
-		accountDomain = googleDomain.toStr.isEmpty ? bedSheetHost.host : googleDomain.host 
+		accountDomain = googleDomain.toStr.trim.isEmpty ? bedServer.host.host : googleDomain.host 
 		if (isProd && (accountDomain == null || accountDomain.lower.contains("localhost"))) {
 			log.warn("Google Analytics Domain `${accountDomain}` is not valid'!\n Add the following to your AppModule's contributeApplicationDefaults() method:\n   config[${GoogleAnalyticsConfigIds#.name}.${GoogleAnalyticsConfigIds#accountDomain.name}] = \"http://www.example.com\");")
 			borked = true
@@ -71,6 +70,11 @@ internal const class GoogleAnalyticsImpl : GoogleAnalytics {
 	override Void sendPageView(Uri? url := null) {
 		if (renderScripts) {
 			renderGuas
+			
+			if (url == null)
+				// by default, cut off any query string from the rendered URL 
+				url = bedServer.toAbsoluteUrl(httpReq.url).pathOnly
+			
 			// maybe allow the page to be set rather than passing in a url
 			// see https://developers.google.com/analytics/devguides/collection/analyticsjs/pages
 			injector.injectScript.withScript(url == null ? "ga('send', 'pageview');" : "ga('send', 'pageview', '${url.encode}');")
