@@ -1,7 +1,7 @@
-#Google Analytics v0.1.2
+#Google Analytics v0.1.4
 ---
 [![Written in: Fantom](http://img.shields.io/badge/written%20in-Fantom-lightgray.svg)](http://fantom.org/)
-[![pod: v0.1.2](http://img.shields.io/badge/pod-v0.1.2-yellow.svg)](http://www.fantomfactory.org/pods/afGoogleAnalytics)
+[![pod: v0.1.4](http://img.shields.io/badge/pod-v0.1.4-yellow.svg)](http://www.fantomfactory.org/pods/afGoogleAnalytics)
 ![Licence: MIT](http://img.shields.io/badge/licence-MIT-blue.svg)
 
 ## Overview
@@ -40,7 +40,7 @@ const class AppModule {
   static Void contributeApplicationDefaults(Configuration config) {
 
     config[GoogleAnalyticsConfigIds.accountNumber] = "XX-99999999-9"
-    config[GoogleAnalyticsConfigIds.accountDomain] = `http://example.org/`	// optional
+    config[GoogleAnalyticsConfigIds.accountDomain] = `http://example.org/`	// optional, defaults to 'auto'
   }
 }
 ```
@@ -49,7 +49,7 @@ Or set the properies in `config.props` (See [IoC Config](http://pods.fantomfacto
 
 ```
 afGoogleAnalytics.accountNumber = XX-99999999-9
-afGoogleAnalytics.accountDomain = http://example.org/	// optional
+afGoogleAnalytics.accountDomain = http://example.org/	// optional, defaults to 'auto'
 ```
 
 The domain is optional and will be taken from the Bedsheet host / request host parameter if not supplied.

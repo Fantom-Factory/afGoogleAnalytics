@@ -12,7 +12,7 @@ class Build : BuildPod {
 			"afIoc.module"	: "afGoogleAnalytics::GoogleAnalyticsModule",
 			"repo.internal"	: "true",			
 			"repo.tags"		: "web",
-			"repo.public"	: "false",
+			"repo.public"	: "true",
 		]
 
 		depends = [
