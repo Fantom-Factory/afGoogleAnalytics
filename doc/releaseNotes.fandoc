@@ -1,10 +1,15 @@
 Versions
 ********
 
+v0.1.4
+======
+ - Chg: Account domain now defaults to 'auto'.
+ - Chg: Renamed 'sendPageView()' --> 'renderPageView()'
+
 v0.1.2
 ======
  - Chg: Page view URLs are stripped of any query parameters.
- 
+
 v0.1.0
 ======
  - Chg: Replaced the efan component with an IoC service that calls on [Duvet]`pod:afDuvet` to inject Javascript

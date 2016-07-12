@@ -21,10 +21,20 @@ const mixin GoogleAnalytics {
 	abstract Bool pageViewRendered()
 
 	** Renders Javascript to send a page view to google analytics. If 'url' is given then it should start with a leading '/', e.g. '/about'
-	abstract Void sendPageView(Uri? url := null)
+	abstract Void renderPageView(Uri? url := null)
 
 	** Renders Javascript to send an event to google analytics. 
-	abstract Void sendEvent(Str category, Str action, Str? label := null)
+	abstract Void renderEvent(Str category, Str action, Str? label := null)
+
+	@NoDoc @Deprecated { msg="Use renderPageView() instead" }
+	virtual Void sendPageView(Uri? url := null) {
+		renderPageView(url)
+	}
+
+	@NoDoc @Deprecated { msg="Use renderEvent() instead" }
+	virtual Void sendEvent(Str category, Str action, Str? label := null) {
+		renderEvent(category, action, label)
+	}
 }
 
 internal const class GoogleAnalyticsImpl : GoogleAnalytics {
@@ -67,7 +77,7 @@ internal const class GoogleAnalyticsImpl : GoogleAnalytics {
 		httpReq.stash["afGoogleAnalytics.pageViewRendered"] == true
 	}
 
-	override Void sendPageView(Uri? url := null) {
+	override Void renderPageView(Uri? url := null) {
 		if (renderScripts) {
 			renderGuas
 			
@@ -82,7 +92,7 @@ internal const class GoogleAnalyticsImpl : GoogleAnalytics {
 		httpReq.stash["afGoogleAnalytics.pageViewRendered"] = true
 	}
 
-	override Void sendEvent(Str category, Str action, Str? label := null) {
+	override Void renderEvent(Str category, Str action, Str? label := null) {
 		if (renderScripts) {
 			renderGuas
 			jsCategory	:= category.toCode('\'')
@@ -97,7 +107,7 @@ internal const class GoogleAnalyticsImpl : GoogleAnalytics {
 			"(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 			 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 			 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+			 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 			 ga('create', '${accountNumber}', '${accountDomain}');")
 	}
 }

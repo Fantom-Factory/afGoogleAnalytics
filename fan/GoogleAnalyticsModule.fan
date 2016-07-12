@@ -12,6 +12,6 @@ const class GoogleAnalyticsModule {
 	@Contribute { serviceType=FactoryDefaults# }
 	internal Void contributeFactoryDefaults(Configuration config) {
 		config[GoogleAnalyticsConfigIds.accountNumber]	= ""
-		config[GoogleAnalyticsConfigIds.accountDomain]	= ``
+		config[GoogleAnalyticsConfigIds.accountDomain]	= `auto`
 	}
 }
