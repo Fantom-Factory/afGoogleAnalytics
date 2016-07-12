@@ -10,6 +10,8 @@ const mixin GoogleAnalyticsConfigIds {
 	 ** If not supplied, it is taken from 'BedSheetServer.host()'.
 	 ** 
 	 ** Example: '//example.org/' or 'http://example.org/'
+	 ** 
+	 ** Defaults to 'auto'.
 	static const Str accountDomain 	:= "afGoogleAnalytics.accountDomain";
 
 }
