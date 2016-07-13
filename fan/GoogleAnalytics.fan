@@ -40,7 +40,7 @@ const mixin GoogleAnalytics {
 internal const class GoogleAnalyticsImpl : GoogleAnalytics {
 	@Inject	private const Log log
 	
-	@Config { id="afGoogleAnalytics.accountNumber" }
+	@Config
 	@Inject	override const Str accountNumber
 
 	@Config { id="afGoogleAnalytics.accountDomain" }
@@ -64,7 +64,10 @@ internal const class GoogleAnalyticsImpl : GoogleAnalytics {
 			borked = true
 		}
 
-		accountDomain = googleDomain.toStr.trim.isEmpty ? bedServer.host.host : googleDomain.host 
+		if (googleDomain.toStr.all { it.isAlphaNum || it == '.' })
+			accountDomain = googleDomain.toStr
+		else
+			accountDomain = googleDomain.toStr.trim.isEmpty ? bedServer.host.host : googleDomain.host 
 		if (isProd && (accountDomain == null || accountDomain.lower.contains("localhost"))) {
 			log.warn("Google Analytics Domain `${accountDomain}` is not valid'!\n Add the following to your AppModule's contributeApplicationDefaults() method:\n   config[${GoogleAnalyticsConfigIds#.name}.${GoogleAnalyticsConfigIds#accountDomain.name}] = \"http://www.example.com\");")
 			borked = true
