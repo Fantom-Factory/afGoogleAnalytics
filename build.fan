@@ -8,15 +8,16 @@ class Build : BuildPod {
 		version = Version("0.1.5")
 
 		meta	= [	
-			"proj.name"		: "Google Analytics",
+			"pod.dis"		: "Google Analytics",
 			"afIoc.module"	: "afGoogleAnalytics::GoogleAnalyticsModule",
 			"repo.internal"	: "true",			
 			"repo.tags"		: "web",
-			"repo.public"	: "false",
+			"repo.public"	: "true",
 		]
 
 		depends = [
 			"sys         1.0.68 - 1.0", 
+			"util        1.0.68 - 1.0", 
 			"afIoc       3.0.0  - 3.0", 
 			"afIocConfig 1.1.0  - 1.1",
 			"afBedSheet  1.5.0  - 1.5",
