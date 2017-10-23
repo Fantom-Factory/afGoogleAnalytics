@@ -1,5 +1,7 @@
-Versions
-********
+v0.1.6
+======
+ - New: Added generic 'GoogleAnalytics.renderCmd()' method.
+ - Chg: Deleted deprecated methods. (Potential breaking change.)
 
 v0.1.4
 ======

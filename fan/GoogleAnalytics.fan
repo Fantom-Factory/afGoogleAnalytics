@@ -3,9 +3,12 @@ using afIocConfig
 using afDuvet
 using afBedSheet::HttpRequest
 using afBedSheet::BedSheetServer
+using util::JsonOutStream
 
 ** (Service) - 
 ** Renders the Google Universal Analytics script and sends page views and events.
+** 
+** See [analytics.js]`https://developers.google.com/analytics/devguides/collection/analyticsjs/` for details.
 const mixin GoogleAnalytics {
 
 	** Returns the domain used to setup the google script. 
@@ -21,20 +24,43 @@ const mixin GoogleAnalytics {
 	abstract Bool pageViewRendered()
 
 	** Renders Javascript to send a page view to google analytics. If 'url' is given then it should start with a leading '/', e.g. '/about'
+	** 
+	** Note that if a URL is NOT supplied, then the query string is stripped from the rendered URL. 
+	** This usually makes sense for Fantom web apps as query strings do not generally denote unique pages. 
 	abstract Void renderPageView(Uri? url := null)
 
 	** Renders Javascript to send an event to google analytics. 
 	abstract Void renderEvent(Str category, Str action, Str? label := null)
 
-	@NoDoc @Deprecated { msg="Use renderPageView() instead" }
-	virtual Void sendPageView(Uri? url := null) {
-		renderPageView(url)
-	}
-
-	@NoDoc @Deprecated { msg="Use renderEvent() instead" }
-	virtual Void sendEvent(Str category, Str action, Str? label := null) {
-		renderEvent(category, action, label)
-	}
+	** Renders Javascript to add an arbitrary command to the command queue. Example:
+	** 
+	**   syntax: fantom
+	**   renderCmd("create", "UA-XXXXX-Y", "auto")
+	** 
+	** would render:
+	**  
+	**   syntax: javascript
+	**   ga('create', 'UA-XXXXX-Y', 'auto');
+	** 
+	** Arguments have 'toStr' executed on them before rendering.
+	** 
+	** If the last argument is a Map, then it is serialised as JSON and used as the 'fieldsObject'. Example:
+	** 
+	**   syntax: fantom
+	**   renderCmd("create", [
+	**       "trackingId"   : "UA-XXXXX-Y",
+	**       "cookieDomain" : "auto"
+	**   ])
+	** 
+	** would render:
+	**  
+	**   syntax: javascript
+	**   ga('create', {
+	**       'trackingId'   : 'UA-XXXXX-Y',
+	**       'cookieDomain' : 'auto'
+	**   });
+	**  
+	abstract Void renderCmd(Str cmd, Obj? arg1 := null, Obj? arg2 := null, Obj? arg3 := null, Obj? arg4 := null)
 }
 
 internal const class GoogleAnalyticsImpl : GoogleAnalytics {
@@ -60,14 +86,15 @@ internal const class GoogleAnalyticsImpl : GoogleAnalytics {
 
 		borked := false
 		if (accountNumber.isEmpty) {
-			log.warn("Google Analytics Account Number has not been set.\n Add the following to your AppModule's contributeApplicationDefaults() method:\n   config[${GoogleAnalyticsConfigIds#.name}.${GoogleAnalyticsConfigIds#accountNumber.name}] = \"GA-ACC-NO\");")
+			log.warn("Google Analytics Account Number has not been set.\n Add the following to your AppModule's contributeApplicationDefaults() method:\n   config[${GoogleAnalyticsConfigIds#.name}.${GoogleAnalyticsConfigIds#accountNumber.name}] = \"UA-XXXXX-Y\");")
 			borked = true
 		}
 
 		if (googleDomain.toStr.all { it.isAlphaNum || it == '.' })
 			accountDomain = googleDomain.toStr
 		else
-			accountDomain = googleDomain.toStr.trim.isEmpty ? bedServer.host.host : googleDomain.host 
+			accountDomain = googleDomain.toStr.trim.isEmpty ? bedServer.host.host : googleDomain.host
+
 		if (isProd && (accountDomain == null || accountDomain.lower.contains("localhost"))) {
 			log.warn("Google Analytics Domain `${accountDomain}` is not valid'!\n Add the following to your AppModule's contributeApplicationDefaults() method:\n   config[${GoogleAnalyticsConfigIds#.name}.${GoogleAnalyticsConfigIds#accountDomain.name}] = \"http://www.example.com\");")
 			borked = true
@@ -102,6 +129,23 @@ internal const class GoogleAnalyticsImpl : GoogleAnalytics {
 			jsAction	:= action.toCode('\'')
 			jsLabel		:= label?.toCode('\'')
 			injector.injectScript.withScript(label == null ? "ga('send', 'event', ${jsCategory}, ${jsAction});" : "ga('send', 'event', ${jsCategory}, ${jsAction}, ${jsLabel});")
+		}
+	}
+	
+	override Void renderCmd(Str cmd, Obj? arg1 := null, Obj? arg2 := null, Obj? arg3 := null, Obj? arg4 := null) {
+		if (renderScripts) {
+			renderGuas
+
+			args := [cmd, arg1, arg2, arg3, arg4].exclude { it == null }
+			json := args.map |arg, i| {
+				i == args.size - 1 && arg is Map
+					? arg
+					: arg.toStr
+			}.map {
+				JsonOutStream.writeJsonToStr(it)
+			}.join(", ")
+			
+			injector.injectScript.withScript("ga(${json});")
 		}
 	}
 	
