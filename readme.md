@@ -1,8 +1,9 @@
-#Google Analytics v0.1.4
+#Google Analytics v0.1.6
 ---
-[![Written in: Fantom](http://img.shields.io/badge/written%20in-Fantom-lightgray.svg)](http://fantom.org/)
-[![pod: v0.1.4](http://img.shields.io/badge/pod-v0.1.4-yellow.svg)](http://www.fantomfactory.org/pods/afGoogleAnalytics)
-![Licence: MIT](http://img.shields.io/badge/licence-MIT-blue.svg)
+
+[![Written in: Fantom](http://img.shields.io/badge/written%20in-Fantom-lightgray.svg)](http://fantom-lang.org/)
+[![pod: v0.1.6](http://img.shields.io/badge/pod-v0.1.6-yellow.svg)](http://www.fantomfactory.org/pods/afGoogleAnalytics)
+![Licence: ISC](http://img.shields.io/badge/licence-ISC-blue.svg)
 
 ## Overview
 
@@ -10,21 +11,25 @@
 
 Google Analytics is a simple service that sends page views and events to Google's [Universal Analytics](https://support.google.com/analytics/answer/2790010) script.
 
-It uses [Duvet](http://pods.fantomfactory.org/pods/afDuvet) to render Javascript in HTML pages.
+It uses [Duvet](http://eggbox.fantomfactory.org/pods/afDuvet) to render Javascript in HTML pages.
 
 ## Install
 
-Install `Google Analytics` with the Fantom Repository Manager ( [fanr](http://fantom.org/doc/docFanr/Tool.html#install) ):
+Install `Google Analytics` with the Fantom Pod Manager ( [FPM](http://eggbox.fantomfactory.org/pods/afFpm) ):
 
-    C:\> fanr install -r http://pods.fantomfactory.org/fanr/ afGoogleAnalytics
+    C:\> fpm install afGoogleAnalytics
 
-To use in a [Fantom](http://fantom.org/) project, add a dependency to `build.fan`:
+Or install `Google Analytics` with [fanr](http://fantom.org/doc/docFanr/Tool.html#install):
+
+    C:\> fanr install -r http://eggbox.fantomfactory.org/fanr/ afGoogleAnalytics
+
+To use in a [Fantom](http://fantom-lang.org/) project, add a dependency to `build.fan`:
 
     depends = ["sys 1.0", ..., "afGoogleAnalytics 0.1"]
 
 ## Documentation
 
-Full API & fandocs are available on the [Fantom Pod Repository](http://pods.fantomfactory.org/pods/afGoogleAnalytics/).
+Full API & fandocs are available on the [Eggbox](http://eggbox.fantomfactory.org/pods/afGoogleAnalytics/) - the Fantom Pod Repository.
 
 ## Quick Start
 
@@ -45,7 +50,7 @@ const class AppModule {
 }
 ```
 
-Or set the properies in `config.props` (See [IoC Config](http://pods.fantomfactory.org/pods/afIocConfig))
+Or set the properies in `config.props` (See [IoC Config](http://eggbox.fantomfactory.org/pods/afIocConfig))
 
 ```
 afGoogleAnalytics.accountNumber = XX-99999999-9
@@ -64,5 +69,5 @@ Then render the required Javascript via the `GoogleAnalytics` service:
 googleAnalytics.sendPageView()
 ```
 
-Note that Javascript is only rendered in `prod` mode. See [IoC Env](http://pods.fantomfactory.org/pods/afIocEnv) for details.
+Note that Javascript is only rendered in `prod` mode. See [IoC Env](http://eggbox.fantomfactory.org/pods/afIocEnv) for details.
 
