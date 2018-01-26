@@ -27,10 +27,10 @@ const mixin GoogleAnalytics {
 	** 
 	** Note that if a URL is NOT supplied, then the query string is stripped from the rendered URL. 
 	** This usually makes sense for Fantom web apps as query strings do not generally denote unique pages. 
-	abstract Void renderPageView(Uri? url := null)
+	abstract Void renderPageView(Uri? url := null, [Str:Obj?]? fieldOptions := null)
 
 	** Renders Javascript to send an event to google analytics. 
-	abstract Void renderEvent(Str category, Str action, Str? label := null)
+	abstract Void renderEvent(Str category, Str action, Str? label := null, Num? value := null, [Str:Obj?]? fieldOptions := null)
 
 	** Renders Javascript to add an arbitrary command to the command queue. Example:
 	** 
@@ -83,7 +83,6 @@ internal const class GoogleAnalyticsImpl : GoogleAnalytics {
 
 	new make(|This|in) {
 		in(this)
-
 		borked := false
 		if (accountNumber.isEmpty) {
 			log.warn("Google Analytics Account Number has not been set.\n Add the following to your AppModule's contributeApplicationDefaults() method:\n   config[${GoogleAnalyticsConfigIds#.name}.${GoogleAnalyticsConfigIds#accountNumber.name}] = \"UA-XXXXX-Y\");")
@@ -107,37 +106,50 @@ internal const class GoogleAnalyticsImpl : GoogleAnalytics {
 		httpReq.stash["afGoogleAnalytics.pageViewRendered"] == true
 	}
 
-	override Void renderPageView(Uri? url := null) {
-		if (renderScripts) {
-			renderGuas
-			
-			if (url == null)
-				// by default, cut off any query string from the rendered URL 
-				url = bedServer.toAbsoluteUrl(httpReq.url).pathOnly
-			
-			// maybe allow the page to be set rather than passing in a url
-			// see https://developers.google.com/analytics/devguides/collection/analyticsjs/pages
-			injector.injectScript.withScript(url == null ? "ga('send', 'pageview');" : "ga('send', 'pageview', '${url.encode}');")
+	override Void renderPageView(Uri? url := null, [Str:Obj?]? fieldOptions := null) {
+		if (renderScripts || log.isDebug) {
+			if (renderScripts) renderGuas
+			code := StrBuf()			
+			join := |Obj? obj| { code.join(JsonOutStream.writeJsonToStr(obj), ", ") }
+			join("send")
+			join("pageview")
+			join(url ?: httpReq.urlAbs.pathOnly.encode)	// pathOnly to cut off any query string --> Fantom apps are not CGI / PHP scripts!
+			if (fieldOptions != null) join(fieldOptions)
+
+			if (renderScripts)
+				injector.injectScript.withScript("ga(${code});")
+			if (log.isDebug)
+				log.debug("ga(${code});")
 		}
 		httpReq.stash["afGoogleAnalytics.pageViewRendered"] = true
 	}
 
-	override Void renderEvent(Str category, Str action, Str? label := null) {
-		if (renderScripts) {
-			renderGuas
-			jsCategory	:= category.toCode('\'')
-			jsAction	:= action.toCode('\'')
-			jsLabel		:= label?.toCode('\'')
-			injector.injectScript.withScript(label == null ? "ga('send', 'event', ${jsCategory}, ${jsAction});" : "ga('send', 'event', ${jsCategory}, ${jsAction}, ${jsLabel});")
+	override Void renderEvent(Str category, Str action, Str? label := null, Num? value := null, [Str:Obj?]? fieldOptions := null) {
+		if (renderScripts || log.isDebug) {
+			if (renderScripts) renderGuas
+			code := StrBuf()			
+			join := |Obj? obj| { code.join(JsonOutStream.writeJsonToStr(obj), ", ") }
+			join("send")
+			join("event")
+			join(category)
+			join(action)
+			if (label != null || value != null || fieldOptions != null)	join(label)
+			if (				 value != null || fieldOptions != null)	join(value)
+			if (								  fieldOptions != null)	join(fieldOptions)
+
+			if (renderScripts)
+				injector.injectScript.withScript("ga(${code});")
+			if (log.isDebug)
+				log.debug("ga(${code});")
 		}
 	}
 	
 	override Void renderCmd(Str cmd, Obj? arg1 := null, Obj? arg2 := null, Obj? arg3 := null, Obj? arg4 := null) {
-		if (renderScripts) {
-			renderGuas
+		if (renderScripts || log.isDebug) {
+			if (renderScripts) renderGuas
 
 			args := [cmd, arg1, arg2, arg3, arg4].exclude { it == null }
-			json := args.map |arg, i| {
+			code := args.map |arg, i| {
 				i == args.size - 1 && arg is Map
 					? arg
 					: arg.toStr
@@ -145,7 +157,10 @@ internal const class GoogleAnalyticsImpl : GoogleAnalytics {
 				JsonOutStream.writeJsonToStr(it)
 			}.join(", ")
 			
-			injector.injectScript.withScript("ga(${json});")
+			if (renderScripts)
+				injector.injectScript.withScript("ga(${code});")
+			if (log.isDebug)
+				log.debug("ga(${code});")
 		}
 	}
 	

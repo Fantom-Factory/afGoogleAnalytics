@@ -22,7 +22,7 @@ const class AppModule {
   static Void contributeApplicationDefaults(Configuration config) {
 
     config[GoogleAnalyticsConfigIds.accountNumber] = "XX-99999999-9"
-    config[GoogleAnalyticsConfigIds.accountDomain] = `http://example.org/`	// optional, defaults to 'auto'
+    config[GoogleAnalyticsConfigIds.accountDomain] = `http://example.org/`  // optional, defaults to 'auto'
   }
 }
 <pre
@@ -31,7 +31,7 @@ Or set the properies in 'config.props' (See [IoC Config]`pod:afIocConfig`)
 
 pre>
 afGoogleAnalytics.accountNumber = XX-99999999-9
-afGoogleAnalytics.accountDomain = http://example.org/	// optional, defaults to 'auto'
+afGoogleAnalytics.accountDomain = http://example.org/   // optional, defaults to 'auto'
 <pre
 
 The domain is optional and will be taken from the Bedsheet host / request host parameter if not supplied.
@@ -47,5 +47,9 @@ syntax: fantom
 googleAnalytics.sendPageView()
 <pre
 
-Note that Javascript is only rendered in 'prod' mode. See [IoC Env]`pod:afIocEnv` for details.
+Note that Javascript is only rendered in 'prod' mode (see [IoC Env]`pod:afIocEnv` for details). Enabled debugging if want to see the generated google analytics javascript in the logs:
+
+  syntax: fantom
+  Log.get("afGoogleAnalytics").level = LogLevel.debug
+
 

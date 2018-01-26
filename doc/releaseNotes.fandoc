@@ -1,3 +1,12 @@
+v0.1
+****
+
+v0.1.8
+======
+ - New: Added optional 'fieldOptions' to 'GoogleAnalytics.renderPageView()'.
+ - New: Added optional paramters to 'GoogleAnalytics.renderEvent()'.
+ - New: Javascript snippets logged to debug.
+
 v0.1.6
 ======
  - New: Added generic 'GoogleAnalytics.renderCmd()' method.
@@ -16,6 +25,11 @@ v0.1.0
 ======
  - Chg: Replaced the efan component with an IoC service that calls on [Duvet]`pod:afDuvet` to inject Javascript
  - Chg: Recompiled to work with [IoC v3]`pod:afIoc` and  [BedSheet 1.5]`pod:afBedSheet`. (Breaking change.)
+
+
+
+v0.0
+****
 
 v0.0.6
 ======
