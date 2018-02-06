@@ -2,6 +2,7 @@ using afIoc
 using afIocConfig
 using afDuvet
 using afBedSheet::HttpRequest
+using afBedSheet::HttpResponse
 using afBedSheet::BedSheetServer
 using util::JsonOutStream
 
@@ -77,6 +78,7 @@ internal const class GoogleAnalyticsImpl : GoogleAnalytics {
 
 	@Inject	private const BedSheetServer	bedServer
 	@Inject	private const HttpRequest		httpReq
+	@Inject	private const HttpResponse		httpRes
 	@Inject	private const HtmlInjector		injector
 			private const Bool 				renderScripts
 			override const Str? 			accountDomain
@@ -171,5 +173,37 @@ internal const class GoogleAnalyticsImpl : GoogleAnalytics {
 			 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 			 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 			 ga('create', '${accountNumber}', '${accountDomain}');")
+
+		csp := httpRes.headers.contentSecurityPolicy
+		addCsp(csp, "script-src",	"https", "https://www.google-analytics.com")	// for the main script
+		addCsp(csp, "img-src",		"https", "https://www.google-analytics.com")	// for some tracking pixel
+		addCsp(csp, "connect-src",	"https", "https://www.google-analytics.com")	// because of the odd CSP report 
+		httpRes.headers.contentSecurityPolicy = csp
+
+		cspro := httpRes.headers.contentSecurityPolicyReportOnly
+		addCsp(cspro, "script-src",		"https", "https://www.google-analytics.com")	// for the main script
+		addCsp(cspro, "img-src",		"https", "https://www.google-analytics.com")	// for some tracking pixel
+		addCsp(cspro, "connect-src",	"https", "https://www.google-analytics.com")	// because of the odd CSP report 
+		httpRes.headers.contentSecurityPolicyReportOnly = cspro
+	}
+	
+	// this handy method was nabbed from Duvet
+	private static Bool addCsp([Str:Str]? csp, Str dirName, Str altDir, Str newDir) {
+		if (csp == null)
+			return false
+
+		directive	:= csp[dirName]?.trimToNull ?: csp["default-src"]?.trimToNull
+		if (directive == null)
+			return false
+
+		directives	:= directive.split
+		if (directives.contains(altDir))	// e.g. 'unsafe-inline'
+			return false
+		
+		if (directives.contains(newDir))
+			return false
+		
+		csp[dirName] = directive + " " + newDir
+		return true
 	}
 }

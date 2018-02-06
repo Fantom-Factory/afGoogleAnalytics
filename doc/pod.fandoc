@@ -47,7 +47,21 @@ syntax: fantom
 googleAnalytics.sendPageView()
 <pre
 
-Note that Javascript is only rendered in 'prod' mode (see [IoC Env]`pod:afIocEnv` for details). Enabled debugging if want to see the generated google analytics javascript in the logs:
+
+
+Content-Security-Policy
+***********************
+GoogleAnalytics automatically updates any Content-Security-Policy HTTP response headers with all neccessary directives. But if you wish to add them manually, it's been observed that the following are required:
+
+  script-src  https", "https://www.google-analytics.com
+  img-src     https", "https://www.google-analytics.com
+  connect-src https", "https://www.google-analytics.com
+
+
+
+Debugging
+*********
+Note that Javascript is only rendered in 'prod' mode (see [IoC Env]`pod:afIocEnv` for details). Enable debugging if want to see the generated google analytics javascript in the logs:
 
   syntax: fantom
   Log.get("afGoogleAnalytics").level = LogLevel.debug
