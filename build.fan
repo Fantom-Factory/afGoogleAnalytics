@@ -16,11 +16,11 @@ class Build : BuildPod {
 		]
 
 		depends = [
-			"sys         1.0.68 - 1.0", 
-			"util        1.0.68 - 1.0", 
-			"afIoc       3.0.0  - 3.0", 
+			"sys         1.0.70 - 1.0", 
+			"util        1.0.70 - 1.0", 
+			"afIoc       3.0.6  - 3.0", 
 			"afIocConfig 1.1.0  - 1.1",
-			"afBedSheet  1.5.0  - 1.5",
+			"afBedSheet  1.5.10 - 1.5",
 			"afDuvet     1.1.0  - 1.1"
 		]
 		
