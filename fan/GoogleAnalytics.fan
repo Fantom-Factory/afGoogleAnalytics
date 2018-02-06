@@ -187,7 +187,7 @@ internal const class GoogleAnalyticsImpl : GoogleAnalytics {
 		httpRes.headers.contentSecurityPolicyReportOnly = cspro
 	}
 	
-	// this handy method was nabbed from Duvet
+	// this handy method was nabbed and updated from Duvet
 	private static Bool addCsp([Str:Str]? csp, Str dirName, Str altDir, Str newDir) {
 		if (csp == null)
 			return false
@@ -203,7 +203,7 @@ internal const class GoogleAnalyticsImpl : GoogleAnalytics {
 		if (directives.contains(newDir))
 			return false
 		
-		csp[dirName] = directive + " " + newDir
+		csp[dirName] = directive.replace("'none'", "") + " " + newDir
 		return true
 	}
 }
