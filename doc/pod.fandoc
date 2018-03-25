@@ -19,7 +19,7 @@ using afGoogleAnalytics
 
 const class AppModule {
   @Contribute { serviceType=ApplicationDefaults# }
-  static Void contributeApplicationDefaults(Configuration config) {
+  Void contributeApplicationDefaults(Configuration config) {
 
     config[GoogleAnalyticsConfigIds.accountNumber] = "XX-99999999-9"
     config[GoogleAnalyticsConfigIds.accountDomain] = `http://example.org/`  // optional, defaults to 'auto'
