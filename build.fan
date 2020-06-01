@@ -5,7 +5,7 @@ class Build : BuildPod {
 	new make() {
 		podName = "afGoogleAnalytics"
 		summary = "An IoC service to render Google's Universal Analytics script"
-		version = Version("0.1.9")
+		version = Version("0.1.11")
 
 		meta	= [
 			"pod.dis"		: "Google Analytics",
